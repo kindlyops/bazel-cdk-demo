@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 //import "source-map-support/register";
+import * as tar from "tar";
 import cdk = require("@aws-cdk/core");
 import { MinimumViableStack } from "./minimum-viable-stack";
 import { CodeBuildExampleStack } from "./codebuild-example";
 import { PipelineMonitorStack } from "./pipeline-monitor";
 import { DeployableStack } from "./deployable";
-
+const outdir = process.argv[2];
 let deployStacks: Array<DeployableStack> = [];
-const app = new cdk.App();
+const app = new cdk.App({
+  outdir: outdir,
+  stackTraces: false
+});
 
 const mvp = new MinimumViableStack(app, "MinimumViableStack", {});
 deployStacks.push(mvp);
@@ -28,3 +32,14 @@ new CodeBuildExampleStack(app, "CodeBuildExampleStack", {
     region: "us-west-2"
   }
 });
+
+const outfile = process.argv[3];
+app.synth();
+tar.create(
+  {
+    file: outfile,
+    cwd: outdir,
+    sync: true
+  },
+  ["."]
+);
