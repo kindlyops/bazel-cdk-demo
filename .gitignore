@@ -62,3 +62,5 @@ typings/
 
 dist
 bazel-out
+
+cdk.out

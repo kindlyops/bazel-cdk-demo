@@ -1,0 +1,36 @@
+load("@npm_bazel_typescript//:index.bzl", "ts_library")
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
+
+package(default_visibility = ["//lib:__subpackages__"])
+
+ts_library(
+    name = "app_ts",
+    srcs = glob(["*.ts"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "@npm//@aws-cdk/aws-cloudtrail",
+        "@npm//@aws-cdk/aws-codebuild",
+        "@npm//@aws-cdk/aws-codepipeline",
+        "@npm//@aws-cdk/aws-codepipeline-actions",
+        "@npm//@aws-cdk/aws-iam",
+        "@npm//@aws-cdk/aws-lambda",
+        "@npm//@aws-cdk/aws-s3",
+        "@npm//@aws-cdk/aws-s3-assets",
+        "@npm//@aws-cdk/aws-sns",
+        "@npm//@aws-cdk/core",
+        "@npm//@aws-cdk/cx-api",
+        "@npm//@types/node",
+        "@npm//@types/tar",
+        "@npm//tar",
+    ],
+)
+
+# this gives us app_loader.js per https://github.com/bazelbuild/rules_nodejs/issues/312
+nodejs_binary(
+    name = "app",
+    data = [
+        ":app_ts",
+    ],
+    entry_point = ":app.ts",
+    visibility = ["//visibility:public"],
+)
