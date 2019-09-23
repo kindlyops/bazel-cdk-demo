@@ -1,0 +1,29 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@com_github_bazelbuild_rules_pkg//pkg:pkg.bzl", "pkg_zip")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/kindlyops/bazel-cdk-demo/lambdas/demo",
+    visibility = ["//visibility:private"],
+    deps = [
+        "@com_github_aws_aws_lambda_go//events:go_default_library",
+        "@com_github_aws_aws_lambda_go//lambda:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "demo",
+    embed = [":go_default_library"],
+    visibility = ["//visibility:private"],
+)
+
+pkg_zip(
+    name = "lambda_deploy",
+    srcs = [
+        ":demo",
+    ],
+    build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
+    timestamp = 0,
+    visibility = ["//visibility:public"],
+)

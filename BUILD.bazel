@@ -35,3 +35,8 @@ genrule(
     tools = ["//lib:app"],
     visibility = ["//visibility:public"],
 )
+
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+# gazelle:prefix github.com/kindlyops/bazel-cdk-demo
+gazelle(name = "gazelle")
