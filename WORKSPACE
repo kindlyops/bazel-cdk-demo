@@ -43,7 +43,7 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/{0}/bazel-gazelle-{0}.tar.gz".format(gazelle_version)],
 )
 
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies()
 
@@ -87,3 +87,31 @@ ts_setup_workspace()
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version")
 
 check_bazel_version("0.29.1", "You must use a newer version of bazel")
+
+go_repository(
+    name = "com_github_aws_aws_lambda_go",
+    importpath = "github.com/aws/aws-lambda-go",
+    sum = "h1:8lYuRVn6rESoUNZXdbCmtGB4bBk4vcVYojiHjE4mMrM=",
+    version = "v1.13.2",
+)
+
+go_repository(
+    name = "com_github_aws_aws_sdk_go",
+    importpath = "github.com/aws/aws-sdk-go",
+    sum = "h1:y13oPwCkhayDvc1GyKCSUUWC2vIv1FOCqPc4nwPEXH0=",
+    version = "v1.25.2",
+)
+
+go_repository(
+    name = "com_github_google_go_github",
+    importpath = "github.com/google/go-github",
+    sum = "h1:N0LgJ1j65A7kfXrZnUDaYCs/Sf4rEjNlfyDHW9dolSY=",
+    version = "v17.0.0+incompatible",
+)
+
+go_repository(
+    name = "com_github_jmespath_go_jmespath",
+    importpath = "github.com/jmespath/go-jmespath",
+    sum = "h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=",
+    version = "v0.0.0-20180206201540-c2b33e8439af",
+)

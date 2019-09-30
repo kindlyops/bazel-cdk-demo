@@ -15,18 +15,19 @@ const app = new cdk.App({
 
 const mvp = new MinimumViableStack(app, "MinimumViableStack", {});
 deployStacks.push(mvp);
-deployStacks.push(
-  new PipelineMonitorStack(app, "PipelineMonitor", {
-    env: {
-      region: "us-west-2"
-    }
-  })
-);
+const deployMonitor = new PipelineMonitorStack(app, "PipelineMonitor", {
+  env: {
+    region: "us-west-2"
+  }
+});
+deployStacks.push(deployMonitor);
+
 new CodeBuildExampleStack(app, "CodeBuildExampleStack", {
   repo: "kindlyops",
   repoOwner: "kindlyops",
   branch: "master|build.*",
   builderProjectName: "github-source-example",
+  deployMonitor: deployMonitor,
   stacks: deployStacks,
   env: {
     region: "us-west-2"

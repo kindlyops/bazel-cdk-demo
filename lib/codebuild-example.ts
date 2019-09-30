@@ -10,24 +10,26 @@ import * as asset from "@aws-cdk/aws-s3-assets";
 import { stringToCloudFormation } from "@aws-cdk/core";
 import { CfnParametersCode } from "@aws-cdk/aws-lambda";
 import { DeployableStack } from "./deployable";
+import { PipelineMonitorStack } from "./pipeline-monitor";
 
 interface CodeBuildExampleStackProps extends cdk.StackProps {
   repoOwner: string;
   repo: string;
   branch: string;
   builderProjectName: string;
+  deployMonitor: PipelineMonitorStack;
   stacks: Array<DeployableStack>;
   /**
    * The runOrder for the CodePipeline action creating the ChangeSet.
    *
-   * @default 1
+   * @default 2
    */
   readonly createChangeSetRunOrder?: number;
 
   /**
    * The runOrder for the CodePipeline action executing the ChangeSet.
    *
-   * @default ``createChangeSetRunOrder + 1``
+   * @default 2
    */
   readonly executeChangeSetRunOrder?: number;
 }
@@ -74,9 +76,9 @@ export class CodeBuildExampleStack extends cdk.Stack {
     const artifactPrefix = "codebuild";
     const artifactName = "stacks.zip";
     const artifactKey = artifactPrefix + "/" + artifactName;
-    const createChangeSetRunOrder = props.createChangeSetRunOrder || 1;
+    const createChangeSetRunOrder = props.createChangeSetRunOrder || 2;
     const executeChangeSetRunOrder =
-      props.executeChangeSetRunOrder || createChangeSetRunOrder + 1;
+      props.executeChangeSetRunOrder || createChangeSetRunOrder + 2;
 
     // To use s3 event triggers rather than polling with CodePipeline,
     // we must use a cloud trail.
@@ -138,6 +140,13 @@ export class CodeBuildExampleStack extends cdk.Stack {
 
     const test = infraPipeline.addStage({ stageName: "Changeset" });
 
+    const notifyStart = new cpa.LambdaInvokeAction({
+      actionName: "notifyGitHubStatusPending",
+      lambda: props.deployMonitor.notifyLambda,
+      runOrder: createChangeSetRunOrder - 1
+    });
+    test.addAction(notifyStart);
+
     // each stack has an action, actions run in parallel
     for (const stack of props.stacks) {
       this.addStackChangesetActions(
@@ -147,6 +156,14 @@ export class CodeBuildExampleStack extends cdk.Stack {
         createChangeSetRunOrder
       );
     }
+
+    // want to report to github if the chagneset create failed or succeeded
+    const notifyEnd = new cpa.LambdaInvokeAction({
+      actionName: "notifyGitHubStatusResult",
+      lambda: props.deployMonitor.notifyLambda,
+      runOrder: createChangeSetRunOrder + 1
+    });
+    test.addAction(notifyEnd);
   }
 
   getParameterOverrides(

@@ -9,6 +9,10 @@ go_library(
     deps = [
         "@com_github_aws_aws_lambda_go//events:go_default_library",
         "@com_github_aws_aws_lambda_go//lambda:go_default_library",
+        "@com_github_aws_aws_sdk_go//aws:go_default_library",
+        "@com_github_aws_aws_sdk_go//aws/endpoints:go_default_library",
+        "@com_github_aws_aws_sdk_go//aws/session:go_default_library",
+        "@com_github_aws_aws_sdk_go//service/secretsmanager:go_default_library",
     ],
 )
 
@@ -18,12 +22,12 @@ go_binary(
     visibility = ["//visibility:private"],
 )
 
-pkg_zip(
-    name = "lambda_deploy",
-    srcs = [
-        ":demo",
-    ],
-    build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
-    timestamp = 0,
-    visibility = ["//visibility:public"],
-)
+# pkg_zip(
+#     name = "lambda_deploy",
+#     srcs = [
+#         ":demo",
+#     ],
+#     build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
+#     timestamp = 0,
+#     visibility = ["//visibility:public"],
+# )

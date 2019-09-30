@@ -23,6 +23,12 @@ This is useful as a build artifact for deployment in a pipeline
 
     bazel build synth
 
+## To add a new  go dependency, run gazelle
+
+For example, to add a dependency on the aws-sdk-go library, run
+
+    bazel run //:gazelle -- update-repos github.com/aws/aws-sdk-go
+
 ## TODO
 
 * generate go lambda function and deployment zip
