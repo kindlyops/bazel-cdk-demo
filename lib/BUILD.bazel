@@ -6,7 +6,6 @@ package(default_visibility = ["//lib:__subpackages__"])
 ts_library(
     name = "app_ts",
     srcs = glob(["*.ts"]),
-    data = [":deploymonitor.py"],
     visibility = ["//visibility:public"],
     deps = [
         "@npm//@aws-cdk/aws-cloudtrail",
@@ -31,10 +30,7 @@ nodejs_binary(
     name = "app",
     data = [
         ":app_ts",
-        ":deploymonitor.py",
     ],
     entry_point = ":app.ts",
     visibility = ["//visibility:public"],
 )
-
-exports_files(["deploymonitor.py"])

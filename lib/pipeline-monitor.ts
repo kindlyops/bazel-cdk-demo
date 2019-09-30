@@ -20,26 +20,13 @@ export class PipelineMonitorStack extends DeployableStack {
     const codeParams = lambda.Code.fromCfnParameters();
     this.lambdaCodes.push({ code: codeParams, name: "monitor" });
 
-    const fn = new lambda.Function(this, functionName, {
+    this.notifyLambda = new lambda.Function(this, functionName, {
       code: codeParams,
       runtime: lambda.Runtime.GO_1_X,
       handler: "main"
     });
 
-    // There is a 4K limit to code delivered via an inline string. Using
-    // this temporarily until we get CDK Asset delivery sorted
-    const functionCode = fs.readFileSync(
-      path.join(__dirname, "deploymonitor.py"),
-      "utf8"
-    );
-
-    this.notifyLambda = new lambda.Function(this, "DeploymentMonitorFunction", {
-      runtime: lambda.Runtime.PYTHON_3_7,
-      handler: "index.lambda_handler",
-      code: lambda.Code.fromInline(functionCode)
-    });
-
-    fn.addToRolePolicy(
+    this.notifyLambda.addToRolePolicy(
       new iam.PolicyStatement({
         resources: ["*"], // TODO: permissions for reading CodePipeline status and getting github creds from SSM
         actions: ["*"]

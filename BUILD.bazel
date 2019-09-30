@@ -22,7 +22,6 @@ nodejs_binary(
         "tsconfig.json",
         "//lib:app",
         "//lib:app_ts",
-        "//lib:deploymonitor.py",
         "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",

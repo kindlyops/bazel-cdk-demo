@@ -16,8 +16,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "da217044d24abd16667324626a33581f3eaccabf80985b2688d6a08ed2f864be",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.37.1/rules_nodejs-0.37.1.tar.gz"],
+    sha256 = "1249a60f88e4c0a46d78de06be04d3d41e7421dcfa0c956de65309a7b7ecf6f4",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.0/rules_nodejs-0.38.0.tar.gz"],
 )
 
 http_archive(
@@ -56,11 +56,12 @@ http_archive(
     urls = ["https://github.com/bazelbuild/buildtools/archive/{0}.tar.gz".format(buildtools_version)],
 )
 
+# https://github.com/bazelbuild/rules_pkg/pull/97
 http_archive(
     name = "com_github_bazelbuild_rules_pkg",
-    sha256 = "162977f84429b692dc1c24a302d6c4f61eb1f6388ef17e40c4c399f5022ed67d",
-    strip_prefix = "rules_pkg-0.2.3",
-    urls = ["https://github.com/bazelbuild/rules_pkg/archive/0.2.3.tar.gz"],
+    sha256 = "129552de1919cdfc2a318427f6dc57bdf741514a0585814acf0980c1e6cbfec4",
+    strip_prefix = "rules_pkg-4a8c3e79f6cc83c10bab6357bfcce6be695d925e",
+    urls = ["https://github.com/kindlyops/rules_pkg/archive/4a8c3e79f6cc83c10bab6357bfcce6be695d925e.tar.gz"],
 )
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
