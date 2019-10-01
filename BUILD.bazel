@@ -40,3 +40,13 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
+
+load("//:manifest.bzl", "lambda_manifest")
+
+lambda_manifest(
+    name = "manifest",
+    srcs = [
+        "//lambdas/demo:lambda_deploy",
+        "//lambdas/demo2:lambda_deploy",
+    ],
+)
