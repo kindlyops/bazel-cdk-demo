@@ -8,15 +8,18 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type manifest struct {
-	Name string `json:"name"`
-	Hash string `json:"hash"`
+	Name  string `json:"name"`
+	Hash  string `json:"hash"`
+	S3Key string `json:"s3key"`
 }
 
 func main() {
 	var output string = os.Args[1]
+	dir := filepath.Dir(output)
 	files := os.Args[2:]
 	count := len(files)
 	hashes := make([]manifest, count)
@@ -31,10 +34,20 @@ func main() {
 			log.Fatal(err)
 		}
 		hash := fmt.Sprintf("%x", hasher.Sum(nil))
-		hashes[i] = manifest{Name: file, Hash: hash}
+		s3key := fmt.Sprintf("%s.zip", hash)
+		// not using a MultiWriter because we don't know the output filename
+		// until we have calculated the hash! doomed to read the file twice.
+		f.Seek(0, 0) // rewind
+		outputName := filepath.Join(dir, s3key)
+		out, err := os.Create(outputName)
+		if _, err := io.Copy(out, f); err != nil {
+			fmt.Printf("Error copying zip to output file %s\n", outputName)
+			log.Fatal(err)
+		}
+		hashes[i] = manifest{Name: file, Hash: hash, S3Key: s3key}
 		hasher.Reset()
 	}
-	j, err := json.Marshal(hashes)
+	j, err := json.MarshalIndent(hashes, "", "  ")
 
 	if err != nil {
 		fmt.Printf("Error generating manifest: %s\n", err.Error())

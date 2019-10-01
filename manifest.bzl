@@ -1,13 +1,16 @@
 def _lambda_manifest_impl(ctx):
-    args = [ctx.outputs.manifest.path] + [f.path for f in ctx.files.srcs]
+    tree = ctx.actions.declare_directory(ctx.attr.name + ".artifacts")
+    output = ctx.actions.declare_file(ctx.attr.name + ".artifacts/manifest.json")
+    args = [output.path] + [f.path for f in ctx.files.srcs]
 
     ctx.actions.run(
         inputs = ctx.files.srcs,
         arguments = args,
-        outputs = [ctx.outputs.manifest],
-        progress_message = "Generating %s manifest" % ctx.outputs.manifest,
+        outputs = [output, tree],
+        progress_message = "Generating %s manifest" % output.path,
         executable = ctx.executable._manifester,
     )
+    return [DefaultInfo(files = depset([tree]))]
 
 lambda_manifest = rule(
     implementation = _lambda_manifest_impl,
@@ -19,8 +22,5 @@ lambda_manifest = rule(
             executable = True,
             cfg = "host",
         ),
-    },
-    outputs = {
-        "manifest": "manifest.json",
     },
 )
