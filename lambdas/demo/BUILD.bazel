@@ -1,5 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@com_github_bazelbuild_rules_pkg//pkg:pkg.bzl", "pkg_zip")
+load("//:manifest.bzl", "lambda_manifest")
 
 go_library(
     name = "go_default_library",
@@ -22,12 +23,34 @@ go_binary(
     visibility = ["//visibility:private"],
 )
 
-# pkg_zip(
-#     name = "lambda_deploy",
-#     srcs = [
-#         ":demo",
-#     ],
-#     build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
-#     timestamp = 0,
-#     visibility = ["//visibility:public"],
-# )
+pkg_zip(
+    name = "lambda_deploy",
+    srcs = [
+        ":main",
+    ],
+    build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
+    timestamp = 0,
+    visibility = ["//visibility:public"],
+)
+
+lambda_manifest(
+    name = "manifest",
+    srcs = [
+        ":lambda_deploy",
+    ],
+)
+
+# [
+#     {
+#     "type": "aws:cdk:asset",
+#     "data": {
+#         "path": "asset.42119a65dc8e026d9c36f2ccacfb49b84797a331d78ff2221ebd35974ed88c6c.zip",
+#         "id": "ContinuousDeliveryPipelineBuildADeploymentMonitorFunctionCode36CFF323",
+#         "packaging": "file",
+#         "sourceHash": "42119a65dc8e026d9c36f2ccacfb49b84797a331d78ff2221ebd35974ed88c6c",
+#         "s3BucketParameter": "DeploymentMonitorFunctionCodeS3BucketCC71B606",
+#         "s3KeyParameter": "DeploymentMonitorFunctionCodeS3VersionKeyE6A6D74F",
+#         "artifactHashParameter": "DeploymentMonitorFunctionCodeArtifactHashEB1D59DE"
+#     }
+# }
+# ]

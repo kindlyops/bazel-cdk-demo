@@ -23,6 +23,8 @@ export class PipelineMonitorStack extends DeployableStack {
       "ImportedArtifactBucket",
       props.artifactBucketName
     );
+
+    // TODO: write a new construct that looks up function key from manifest
     const code = lambda.Code.fromBucket(artifactBucket, functionName);
 
     this.notifyLambda = new lambda.Function(this, functionName, {
