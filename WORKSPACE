@@ -35,12 +35,13 @@ go_register_toolchains(
     go_version = "1.12.9",
 )
 
-gazelle_version = "0.18.1"
-
+# to easily generate the http_archive with sha use a command like
+# bzl use bazelbuild/bazel-gazelle 0.18.2
 http_archive(
     name = "bazel_gazelle",
-    sha256 = "be9296bfd64882e3c08e3283c58fcb461fa6dd3c171764fcc4cf322f60615a9b",
-    urls = ["https://github.com/bazelbuild/bazel-gazelle/releases/download/{0}/bazel-gazelle-{0}.tar.gz".format(gazelle_version)],
+    sha256 = "6bf18fbc02f7e999335f38933b4eeb292853b516fbc3ed64be837063f0c412a0",
+    strip_prefix = "bazel-gazelle-0.18.2",
+    urls = ["https://github.com/bazelbuild/bazel-gazelle/archive/0.18.2.tar.gz"],
 )
 
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")

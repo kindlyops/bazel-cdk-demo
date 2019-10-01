@@ -13,12 +13,15 @@ const app = new cdk.App({
   stackTraces: false
 });
 
-const mvp = new MinimumViableStack(app, "MinimumViableStack", {});
+const mvp = new MinimumViableStack(app, "MinimumViableStack", {
+  artifactBucketName: "foo"
+});
 deployStacks.push(mvp);
 const deployMonitor = new PipelineMonitorStack(app, "PipelineMonitor", {
   env: {
     region: "us-west-2"
-  }
+  },
+  artifactBucketName: "foo"
 });
 deployStacks.push(deployMonitor);
 

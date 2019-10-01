@@ -115,9 +115,6 @@ export class CodeBuildExampleStack extends cdk.Stack {
       })
     });
 
-    // TODO: add a secondary output artifact that contains all the lambda zips
-    // then add an S3DeployAction that extracts those zips into s3.
-
     const pipelineOutput = new cp.Artifact();
 
     const infraPipeline = new cp.Pipeline(this, "InfraPipeline", {
@@ -140,13 +137,6 @@ export class CodeBuildExampleStack extends cdk.Stack {
 
     const test = infraPipeline.addStage({ stageName: "Changeset" });
 
-    const notifyStart = new cpa.LambdaInvokeAction({
-      actionName: "notifyGitHubStatusPending",
-      lambda: props.deployMonitor.notifyLambda,
-      runOrder: createChangeSetRunOrder - 1
-    });
-    test.addAction(notifyStart);
-
     // each stack has an action, actions run in parallel
     for (const stack of props.stacks) {
       this.addStackChangesetActions(
@@ -156,65 +146,6 @@ export class CodeBuildExampleStack extends cdk.Stack {
         createChangeSetRunOrder
       );
     }
-
-    // want to report to github if the chagneset create failed or succeeded
-    const notifyEnd = new cpa.LambdaInvokeAction({
-      actionName: "notifyGitHubStatusResult",
-      lambda: props.deployMonitor.notifyLambda,
-      runOrder: createChangeSetRunOrder + 1
-    });
-    test.addAction(notifyEnd);
-  }
-
-  getParameterOverrides(
-    stack: DeployableStack,
-    input: cp.Artifact
-  ): { [name: string]: any } {
-    // walk the Construct tree looking for assets metadata
-    // const stuff = stack.node.findAll();
-    // let parameters = {} as { [name: string]: any };
-    // for (const item of stuff) {
-    //   if (item instanceof lambda.Function) {
-    //     //const code = item.assign() as CfnParametersCode;
-    //     //item.props.code.assign(input.atPath("dist/foo.zip"));
-    //     parameters[`${stack.stackName}AssetBucketName`] = input.bucketName;
-    // parameters[
-    //   `${stack.stackName}${item.node.id}LambdaCode`
-    //   // this is generating an invalid parameterOverride
-    //   // TODO: debug why using input.atPath is generating super bogus CFN code
-    //   // see what it does for templatePath as a contrast
-    //   //] = input.atPath(`lambdas/${item.node.id}/lambda.zip`);
-    // ] = `Artifact_Source_sourceArtifactArrived::lambdas/monitor/lambda.zip`;
-    // We may also need a codepipeline S3 delivery action to pull this lambda zip out of the stacks.zip and drop it in S3
-
-    // This approach using CDK Assets turned into a complicated battle to
-    // undo some of what CDK was trying to do automatically.
-
-    // for (const resource of item.node.children) {
-    //   if (resource instanceof asset.Asset) {
-    //     const md = resource.node.metadata.filter(
-    //       md => md.type === cxapi.ASSET_METADATA
-    //     );
-    //     if (md.length > 1) {
-    //       throw new Error(
-    //         `Unexpected extra Lambda function asset metadata in ${stack.stackName}`
-    //       );
-    //     }
-    //     const lambdaData = md[0].data;
-    // parameters[lambdaData.s3KeyParameter] = lambdaData.path;
-    // parameters[lambdaData.s3BucketParameter] = input.bucketName;
-    // }
-    //   }
-    // }
-    let parameters = {} as { [name: string]: any };
-    for (const item of stack.lambdaCodes) {
-      const result = item.code.assign({
-        bucketName: input.bucketName,
-        objectKey: input.atPath(`services/${item.name}/lambda.zip`).location
-      });
-      parameters = { ...parameters, ...result };
-    }
-    return parameters;
   }
 
   addStackChangesetActions(
@@ -223,21 +154,15 @@ export class CodeBuildExampleStack extends cdk.Stack {
     input: cp.Artifact,
     runOrder: number
   ): void {
-    const overrides = this.getParameterOverrides(stack, input);
     const create = new cpa.CloudFormationCreateReplaceChangeSetAction({
       actionName: `${stack}Prepare`,
       stackName: stack.stackName,
       changeSetName: `${stack}ChangeSet`,
       adminPermissions: true,
-      parameterOverrides: overrides,
-      //templateConfiguration: input.atPath(`${stack}.template.parameters`),
       // TODO: role: role,
       templatePath: input.atPath(`${stack}.template.json`),
       runOrder: runOrder
-      // TODO: is extraInputs needed?
     });
-    // TODO: cross-environment actions are coming in the next release after cdk 1.8
-    // https://github.com/aws/aws-cdk/pull/3694
     stage.addAction(create);
   }
 }

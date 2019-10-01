@@ -1,9 +1,9 @@
 import * as cdk from "@aws-cdk/core";
 import * as sns from "@aws-cdk/aws-sns";
-import { DeployableStack } from "./deployable";
+import { DeployableStack, DeployableStackProps } from "./deployable";
 
 export class MinimumViableStack extends DeployableStack {
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+  constructor(scope: cdk.Construct, id: string, props: DeployableStackProps) {
     super(scope, id, props);
 
     // when building out a new stack it is useful to start with
