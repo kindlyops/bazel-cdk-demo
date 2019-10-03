@@ -64,3 +64,4 @@ dist
 bazel-out
 
 cdk.out
+.vscode
