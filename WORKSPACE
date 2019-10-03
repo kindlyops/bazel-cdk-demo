@@ -88,7 +88,7 @@ ts_setup_workspace()
 
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version")
 
-check_bazel_version("0.29.1", "You must use a newer version of bazel")
+check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
 go_repository(
     name = "com_github_aws_aws_lambda_go",
