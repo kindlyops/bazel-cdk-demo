@@ -60,9 +60,9 @@ http_archive(
 # https://github.com/bazelbuild/rules_pkg/pull/97
 http_archive(
     name = "com_github_bazelbuild_rules_pkg",
-    sha256 = "129552de1919cdfc2a318427f6dc57bdf741514a0585814acf0980c1e6cbfec4",
-    strip_prefix = "rules_pkg-4a8c3e79f6cc83c10bab6357bfcce6be695d925e",
-    urls = ["https://github.com/kindlyops/rules_pkg/archive/4a8c3e79f6cc83c10bab6357bfcce6be695d925e.tar.gz"],
+    sha256 = "135a94754b05e06d1e6601fb4872ff0df9efa09813fb1bb67e0a40465784ad39",
+    strip_prefix = "rules_pkg-c87df3e066ef3391be21e09534bea153856f707d",
+    urls = ["https://github.com/kindlyops/rules_pkg/archive/c87df3e066ef3391be21e09534bea153856f707d.tar.gz"],
 )
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
