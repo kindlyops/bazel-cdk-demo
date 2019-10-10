@@ -8,7 +8,7 @@
     "@bazel/buildifier": "latest",
     "@bazel/typescript": "^0.38.0",
     "@types/node": "12.7.12",
-    "typescript": "^3.6.3",
+    "typescript": "^3.6.4",
     "ts-node": "^8.4.1",
     "aws-cdk": "~1.11.0",
     "@aws-cdk/assets": "~1.11.0",
