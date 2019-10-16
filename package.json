@@ -52,7 +52,7 @@
     "@aws-cdk/core": "~1.11.0",
     "@aws-cdk/custom-resources": "~1.11.0",
     "@aws-cdk/cx-api": "~1.11.0",
-    "@aws-cdk/region-info": "~1.11.0",
+    "@aws-cdk/region-info": "~1.13.1",
     "source-map-support": "^0.5.9",
     "prettier": "^1.18.2",
     "tar": "^5.0.5",
