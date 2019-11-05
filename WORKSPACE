@@ -16,8 +16,8 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "1249a60f88e4c0a46d78de06be04d3d41e7421dcfa0c956de65309a7b7ecf6f4",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.0/rules_nodejs-0.38.0.tar.gz"],
+    sha256 = "3d7296d834208792fa3b2ded8ec04e75068e3de172fae79db217615bd75a6ff7",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.39.1/rules_nodejs-0.39.1.tar.gz"],
 )
 
 http_archive(
@@ -60,20 +60,29 @@ http_archive(
 # https://github.com/bazelbuild/rules_pkg/pull/97
 http_archive(
     name = "com_github_bazelbuild_rules_pkg",
-    sha256 = "129552de1919cdfc2a318427f6dc57bdf741514a0585814acf0980c1e6cbfec4",
-    strip_prefix = "rules_pkg-4a8c3e79f6cc83c10bab6357bfcce6be695d925e",
-    urls = ["https://github.com/kindlyops/rules_pkg/archive/4a8c3e79f6cc83c10bab6357bfcce6be695d925e.tar.gz"],
+    sha256 = "135a94754b05e06d1e6601fb4872ff0df9efa09813fb1bb67e0a40465784ad39",
+    strip_prefix = "rules_pkg-c87df3e066ef3391be21e09534bea153856f707d",
+    urls = ["https://github.com/kindlyops/rules_pkg/archive/c87df3e066ef3391be21e09534bea153856f707d.tar.gz"],
 )
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
 # It also extracts any Bazel rules distributed in an npm package.
-load("@build_bazel_rules_nodejs//:defs.bzl", "npm_install")
+load("@build_bazel_rules_nodejs//:defs.bzl", "yarn_install", "check_bazel_version", "node_repositories")
 
-npm_install(
+# NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
+# your npm dependencies into your node_modules folder.
+# You must still run the package manager to do this.
+node_repositories(
+    package_json = ["//:package.json"],
+    node_version = "10.13.0",
+    yarn_version = "1.12.1",
+)
+
+yarn_install(
     # Name this npm so that Bazel Label references look like @npm//package
     name = "npm",
     package_json = "//:package.json",
-    package_lock_json = "//:package-lock.json",
+    yarn_lock = "//:yarn.lock",
 )
 
 # Install any Bazel rules which were extracted earlier by the npm_install rule.
@@ -85,8 +94,6 @@ install_bazel_dependencies()
 load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 
 ts_setup_workspace()
-
-load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version")
 
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
