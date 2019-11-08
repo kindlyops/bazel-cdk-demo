@@ -1,0 +1,43 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+
+go_library(
+    name = "go_default_library",
+    srcs = ["main.go"],
+    importpath = "github.com/kindlyops/bazel-cdk-demo/tasks/hello",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "binary",
+    embed = [":go_default_library"],
+    goarch = "amd64",
+    goos = "linux",
+    visibility = ["//visibility:private"],
+)
+
+go_image(
+    name = "image",
+    binary = ":binary",
+)
+
+# bazel build will prepare this for push but does not require credentials
+# bazel run //tasks/hello:push will attempt to push to the docker repo
+container_push(
+    name = "push",
+    format = "Docker",
+    image = ":image",
+    registry = "index.docker.io",
+    # this repository name needs to match what we put in the CDK service stack
+    repository = "kindlyops/hello",
+    skip_unchanged_digest = True,
+    tags = ["push"],  # this is a bazel tag not a docker tag
+)
+
+# container_push generates an output digest file that we can consume
+# bazel build //tasks/hello:push.digest
+
+# the contents of the digest file are what we use to reference that version of
+# the docker image in the repo instead of tags
+# docker pull kindlyops/hello@sha256:e82aba9aa6b2cda17a58361ef10fdc40ae4b993794c3a94c053a46ef17d2f42c

@@ -67,14 +67,14 @@ http_archive(
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
 # It also extracts any Bazel rules distributed in an npm package.
-load("@build_bazel_rules_nodejs//:defs.bzl", "yarn_install", "check_bazel_version", "node_repositories")
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
 # your npm dependencies into your node_modules folder.
 # You must still run the package manager to do this.
 node_repositories(
-    package_json = ["//:package.json"],
     node_version = "10.13.0",
+    package_json = ["//:package.json"],
     yarn_version = "1.12.1",
 )
 
@@ -96,6 +96,28 @@ load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
 ts_setup_workspace()
 
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
+
+# Download the rules_docker repository at release v0.12.1
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "14ac30773fdb393ddec90e158c9ec7ebb3f8a4fd533ec2abbfd8789ad81a284b",
+    strip_prefix = "rules_docker-0.12.1",
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.12.1/rules_docker-v0.12.1.tar.gz"],
+)
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+
+container_repositories()
+
+load(
+    "@io_bazel_rules_docker//go:image.bzl",
+    _go_image_repos = "repositories",
+)
+
+_go_image_repos()
 
 go_repository(
     name = "com_github_aws_aws_lambda_go",
