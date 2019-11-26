@@ -67,14 +67,14 @@ http_archive(
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
 # It also extracts any Bazel rules distributed in an npm package.
-load("@build_bazel_rules_nodejs//:defs.bzl", "yarn_install", "check_bazel_version", "node_repositories")
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
 # your npm dependencies into your node_modules folder.
 # You must still run the package manager to do this.
 node_repositories(
-    package_json = ["//:package.json"],
     node_version = "10.13.0",
+    package_json = ["//:package.json"],
     yarn_version = "1.12.1",
 )
 
@@ -97,6 +97,7 @@ ts_setup_workspace()
 
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
+# TODO: get rid of these go_repositories and use vendor mode
 go_repository(
     name = "com_github_aws_aws_lambda_go",
     importpath = "github.com/aws/aws-lambda-go",
