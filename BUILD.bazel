@@ -41,7 +41,7 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
 
-load("//:manifest.bzl", "lambda_manifest")
+load("@com_kindlyops_rules_manifest//:manifest.bzl", "lambda_manifest")
 
 lambda_manifest(
     name = "manifest",

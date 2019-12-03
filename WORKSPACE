@@ -69,6 +69,14 @@ http_archive(
 # It also extracts any Bazel rules distributed in an npm package.
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
+# rules_manifest
+http_archive(
+    name = "com_kindlyops_rules_manifest",
+    sha256 = "99873d31226aa32dc025d651ca80628fbe2faa4e28d283436e0b82199200b7af",
+    strip_prefix = "rules_manifest-0.1.0",
+    urls = ["https://github.com/kindlyops/rules_manifest/archive/v0.1.0.tar.gz"],
+)
+
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
 # your npm dependencies into your node_modules folder.
 # You must still run the package manager to do this.
