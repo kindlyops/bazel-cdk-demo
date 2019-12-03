@@ -41,12 +41,36 @@ load("@bazel_gazelle//:def.bzl", "gazelle")
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
 
-load("@com_kindlyops_rules_manifest//:manifest.bzl", "lambda_manifest")
+load("@com_kindlyops_rules_manifest//:manifest.bzl", "docker_manifest", "lambda_manifest")
 
 lambda_manifest(
-    name = "manifest",
+    name = "lambdamanifest",
     srcs = [
         "//lambdas/demo:lambda_deploy",
         "//lambdas/demo2:lambda_deploy",
+    ],
+)
+
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+
+go_image(
+    name = "container",
+    binary = "@com_github_containous_whoami//:whoami",
+)
+
+container_push(
+    name = "push",
+    format = "Docker",
+    image = ":container",
+    registry = "gcr.io",
+    repository = "example-service",
+    visibility = ["//visibility:public"],
+)
+
+docker_manifest(
+    name = "containermanifest",
+    srcs = [
+        ":push.digest",
     ],
 )

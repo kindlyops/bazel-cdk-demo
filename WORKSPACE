@@ -72,9 +72,9 @@ load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_reposi
 # rules_manifest
 http_archive(
     name = "com_kindlyops_rules_manifest",
-    sha256 = "99873d31226aa32dc025d651ca80628fbe2faa4e28d283436e0b82199200b7af",
-    strip_prefix = "rules_manifest-0.1.0",
-    urls = ["https://github.com/kindlyops/rules_manifest/archive/v0.1.0.tar.gz"],
+    sha256 = "476f374a5b125032ffdeca8541302fc87fb37207bba4792c4f4baa1e19ee5222",
+    strip_prefix = "rules_manifest-0.2.1",
+    urls = ["https://github.com/kindlyops/rules_manifest/archive/v0.2.1.tar.gz"],
 )
 
 # NOTE: this rule installs nodejs, npm, and yarn, but does NOT install
@@ -105,6 +105,39 @@ ts_setup_workspace()
 
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
+# rules_docker
+rules_docker_version = "0.12.1"
+
+http_archive(
+    name = "io_bazel_rules_docker",
+    sha256 = "14ac30773fdb393ddec90e158c9ec7ebb3f8a4fd533ec2abbfd8789ad81a284b",
+    strip_prefix = "rules_docker-{}".format(rules_docker_version),
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v{0}/rules_docker-v{0}.tar.gz".format(rules_docker_version)],
+)
+
+load(
+    "@io_bazel_rules_docker//repositories:repositories.bzl",
+    container_repositories = "repositories",
+)
+
+container_repositories()
+
+load(
+    "@io_bazel_rules_docker//go:image.bzl",
+    docker_go_image_repos = "repositories",
+)
+
+docker_go_image_repos()
+
+go_repository(
+    name = "com_github_containous_whoami",
+    importpath = "github.com/containous/whoami",
+    patch_args = ["-p1"],
+    patches = ["//:BUILD.patch"],
+    sum = "h1:67C6ZyBsINZJW5OC00Z5aX2caOC1++UuHdoHz4wb9dw=",
+    version = "v1.4.0",
+)
+
 # TODO: get rid of these go_repositories and use vendor mode
 go_repository(
     name = "com_github_aws_aws_lambda_go",
@@ -132,4 +165,11 @@ go_repository(
     importpath = "github.com/jmespath/go-jmespath",
     sum = "h1:pmfjZENx5imkbgOkpRUYLnmbU7UEFbjtDA2hxJ1ichM=",
     version = "v0.0.0-20180206201540-c2b33e8439af",
+)
+
+go_repository(
+    name = "com_github_gorilla_websocket",
+    importpath = "github.com/gorilla/websocket",
+    sum = "h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=",
+    version = "v1.4.1",
 )

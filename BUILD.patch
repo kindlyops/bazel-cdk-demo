@@ -1,0 +1,9 @@
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -11,5 +11,6 @@ go_library(
+ go_binary(
+     name = "whoami",
+     embed = [":go_default_library"],
++               goos = "linux",
+     visibility = ["//visibility:public"],
+ )
