@@ -173,3 +173,17 @@ go_repository(
     sum = "h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=",
     version = "v1.4.1",
 )
+
+# use local_repository when testing local changes to pipeline-monitor
+# local_repository should be commented out before committing.
+local_repository(
+    name = "com_github_kindlyops_pipeline_monitor",
+    path = "/Users/emurphy/go/src/github.com/kindlyops/pipeline-monitor",
+)
+
+# http_archive(
+#     name = "com_github_kindlyops_pipeline_monitor",
+#     urls = ["https://github.com/kindlyops/pipeline-monitor/archive/v0.2.6.tar.gz"],
+#     strip_prefix = "pipeline-monitor-0.2.6",
+#     sha256 = "1b8bb9ff35f4547ad64d851a8e924df408f423d851e68492d7080f388a97fa0a",
+# )

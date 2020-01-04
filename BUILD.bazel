@@ -48,6 +48,7 @@ lambda_manifest(
     srcs = [
         "//lambdas/demo:lambda_deploy",
         "//lambdas/demo2:lambda_deploy",
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
 )
 
