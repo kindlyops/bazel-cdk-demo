@@ -6,7 +6,10 @@ import { MinimumViableStack } from "./minimum-viable-stack";
 import { CodeBuildExampleStack } from "./codebuild-example";
 import { PipelineMonitorStack } from "./pipeline-monitor";
 import { DeployableStack } from "./deployable";
-const outdir = process.argv[2];
+const outdir = "cdk.out";
+const pipelineLambda =
+  "../com_github_kindlyops_pipeline_monitor/lambda_deploy.zip";
+console.log("process.argv", process.argv);
 let deployStacks: Array<DeployableStack> = [];
 const app = new cdk.App({
   outdir: outdir,
@@ -17,33 +20,26 @@ const mvp = new MinimumViableStack(app, "MinimumViableStack", {
   artifactBucketName: "foo"
 });
 deployStacks.push(mvp);
+
 const deployMonitor = new PipelineMonitorStack(app, "PipelineMonitor", {
   env: {
     region: "us-west-2"
   },
-  artifactBucketName: "foo"
+  artifactBucketName: "foo",
+  monitorFunctionZip: pipelineLambda
 });
 deployStacks.push(deployMonitor);
 
-new CodeBuildExampleStack(app, "CodeBuildExampleStack", {
-  repo: "kindlyops",
-  repoOwner: "kindlyops",
-  branch: "master|build.*",
-  builderProjectName: "github-source-example",
-  deployMonitor: deployMonitor,
-  stacks: deployStacks,
-  env: {
-    region: "us-west-2"
-  }
-});
+// new CodeBuildExampleStack(app, "CodeBuildExampleStack", {
+//   repo: "kindlyops",
+//   repoOwner: "kindlyops",
+//   branch: "master|build.*",
+//   builderProjectName: "github-source-example",
+//   deployMonitor: deployMonitor,
+//   stacks: deployStacks,
+//   env: {
+//     region: "us-west-2"
+//   }
+// });
 
-const outfile = process.argv[3];
 app.synth();
-tar.create(
-  {
-    file: outfile,
-    cwd: outdir,
-    sync: true
-  },
-  ["."]
-);

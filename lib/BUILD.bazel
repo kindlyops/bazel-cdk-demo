@@ -30,6 +30,7 @@ nodejs_binary(
     name = "app",
     data = [
         ":app_ts",
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
     entry_point = ":app.ts",
     visibility = ["//visibility:public"],
