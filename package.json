@@ -10,7 +10,7 @@
     "@bazel/typescript": "^0.39.1",
     "typescript": "^3.6.4",
     "ts-node": "^8.4.1",
-    "aws-cdk": "~1.18.0",
+    "aws-cdk": "~1.21.0",
     "@aws-cdk/assets": "~1.14.0",
     "@aws-cdk/aws-apigateway": "~1.14.0",
     "@aws-cdk/aws-applicationautoscaling": "~1.14.0",
