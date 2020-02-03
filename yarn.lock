@@ -880,9 +880,9 @@
   integrity sha512-nmILMfF8wD3hR3+r0MUCqPahgBYszLKFBcrbnmYthG6Oujgy1NpYMjeWj7Hjt3pJMkT1MgQP/VipLu2gQyMc0Q==
 
 "@bazel/ibazel@latest":
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/@bazel/ibazel/-/ibazel-0.10.3.tgz#2e2b8a1d3e885946eac41db2b1aa6801fb319887"
-  integrity sha512-v1nXbMTHVlMM4z4uWp6XiRoHAyUlYggF1SOboLLWRp0+D22kWixqArWqnozLw2mOtnxr97BdLjluWiho6A8Hjg==
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@bazel/ibazel/-/ibazel-0.11.1.tgz#c07ceaded388f1e39d6aa732953e0dd04f3dbdf0"
+  integrity sha512-qAdEquFAudYyN+CYfLzvuRWNubdsh6C8+o5CiViUEfchq1HQM5Rs8xAOE3fzGsTZ1EUsvgca/PY0kn0VIxckBA==
 
 "@bazel/typescript@^0.39.1":
   version "0.39.1"
