@@ -45,7 +45,7 @@
     "@aws-cdk/aws-secretsmanager": "~1.14.0",
     "@aws-cdk/aws-servicediscovery": "~1.14.0",
     "@aws-cdk/aws-sns": "~1.14.0",
-    "@aws-cdk/aws-sns-subscriptions": "~1.14.0",
+    "@aws-cdk/aws-sns-subscriptions": "~1.23.0",
     "@aws-cdk/aws-sqs": "~1.14.0",
     "@aws-cdk/aws-ssm": "~1.14.0",
     "@aws-cdk/aws-stepfunctions": "~1.14.0",
