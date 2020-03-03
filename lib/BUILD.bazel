@@ -12,6 +12,7 @@ ts_library(
         "@npm//@aws-cdk/aws-codebuild",
         "@npm//@aws-cdk/aws-codepipeline",
         "@npm//@aws-cdk/aws-codepipeline-actions",
+        "@npm//@aws-cdk/aws-events-targets",
         "@npm//@aws-cdk/aws-iam",
         "@npm//@aws-cdk/aws-lambda",
         "@npm//@aws-cdk/aws-s3",

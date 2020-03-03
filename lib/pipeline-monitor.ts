@@ -1,6 +1,8 @@
 import * as cdk from "@aws-cdk/core";
 import * as iam from "@aws-cdk/aws-iam";
 import * as lambda from "@aws-cdk/aws-lambda";
+import * as codebuild from "@aws-cdk/aws-codebuild";
+import * as targets from "@aws-cdk/aws-events-targets";
 import * as s3 from "@aws-cdk/aws-s3";
 import { DeployableStack, DeployableStackProps } from "./deployable";
 import path = require("path");
@@ -24,7 +26,7 @@ export class PipelineMonitorStack extends DeployableStack {
     this.notifyLambda = new lambda.Function(this, "CodeBuildLogCommenter", {
       code: code,
       runtime: lambda.Runtime.GO_1_X,
-      handler: "main"
+      handler: "pipelinemonitor"
     });
 
     this.notifyLambda.addToRolePolicy(
@@ -33,5 +35,20 @@ export class PipelineMonitorStack extends DeployableStack {
         actions: ["*"]
       })
     );
+
+    this.notifyLambda.addEnvironment(
+      "SECRETSMANAGER_GITHUBTOKEN_NAME",
+      "/github/apitoken"
+    );
+
+    // set up cloudwatch events rule on an externally defined builder
+    const project = codebuild.Project.fromProjectName(
+      this,
+      "PRBuilder",
+      "pipeline-monitor-lint"
+    );
+    const rule = project.onStateChange("BuildStateChange", {
+      target: new targets.LambdaFunction(this.notifyLambda)
+    });
   }
 }
