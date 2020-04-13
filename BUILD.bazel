@@ -46,8 +46,8 @@ load("@com_kindlyops_rules_manifest//:manifest.bzl", "docker_manifest", "lambda_
 lambda_manifest(
     name = "lambdamanifest",
     srcs = [
-        "//lambdas/demo:lambda_deploy",
-        "//lambdas/demo2:lambda_deploy",
+        "//lambdas/demo:lambda_zip",
+        "//lambdas/demo2:lambda_zip",
     ],
 )
 

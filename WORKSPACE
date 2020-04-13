@@ -57,14 +57,6 @@ http_archive(
     urls = ["https://github.com/bazelbuild/buildtools/archive/{0}.tar.gz".format(buildtools_version)],
 )
 
-# https://github.com/bazelbuild/rules_pkg/pull/97
-http_archive(
-    name = "com_github_bazelbuild_rules_pkg",
-    sha256 = "135a94754b05e06d1e6601fb4872ff0df9efa09813fb1bb67e0a40465784ad39",
-    strip_prefix = "rules_pkg-c87df3e066ef3391be21e09534bea153856f707d",
-    urls = ["https://github.com/kindlyops/rules_pkg/archive/c87df3e066ef3391be21e09534bea153856f707d.tar.gz"],
-)
-
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
 # It also extracts any Bazel rules distributed in an npm package.
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
