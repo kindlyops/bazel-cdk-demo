@@ -7,9 +7,10 @@ def ts_test(name, srcs, deps, jest_config = "//:jest.config.js", **kwargs):
     lib_name = name + "_lib"
     src_name = name + "_src"
 
-    # deps = deps + [
-    #     "@npm//@aws-cdk/assert",
-    # ]
+    deps = deps + [
+        #"@npm//@aws-cdk/assert",
+        "@npm//@types/jest",
+    ]
 
     # Compile the test and extract its js files
 

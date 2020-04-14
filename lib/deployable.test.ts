@@ -1,6 +1,6 @@
-//import { DeployableStack } from "./deployable";
+// import { DeployableStack } from "./deployable";
 import * as cdk from "@aws-cdk/core";
-import '@aws-cdk/assert/jest';
+//import '@aws-cdk/assert/jest';
 //import { SynthUtils } from '@aws-cdk/assert';
 
 test('deployable', () => {

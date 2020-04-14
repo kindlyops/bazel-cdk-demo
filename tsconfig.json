@@ -20,5 +20,6 @@
   },
   "paths": {
     "com_kindlyops_bazel_cdk_demo/*": ["*"]
-  }
+  },
+  "exclude": ["cdk.out", "bazel-out", "dist", "node_modules"]
 }
