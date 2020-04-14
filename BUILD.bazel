@@ -13,7 +13,7 @@ exports_files(
         "cdk.json",
         "jest.config.js",
     ],
-    visibility = ["//:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
 
 nodejs_binary(

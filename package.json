@@ -3,14 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@bazel/bazel": "latest",
-    "@bazel/ibazel": "latest",
-    "@bazel/buildifier": "latest",
-    "@types/node": "13.7.0",
-    "@bazel/typescript": "^1.6.0",
-    "typescript": "^3.6.4",
-    "ts-node": "^8.4.1",
-    "aws-cdk": "~1.32.2",
     "@aws-cdk/assert": "^1.32.2",
     "@aws-cdk/assets": "~1.32.2",
     "@aws-cdk/aws-apigateway": "~1.32.2",
@@ -54,13 +46,21 @@
     "@aws-cdk/custom-resources": "~1.32.2",
     "@aws-cdk/cx-api": "~1.32.2",
     "@aws-cdk/region-info": "~1.32.2",
-    "source-map-support": "^0.5.9",
-    "prettier": "^1.19.1",
-    "tar": "^5.0.5",
-    "@types/tar": "^4.0.3",
-    "jest": "~25.1.0",
+    "@bazel/bazel": "latest",
+    "@bazel/buildifier": "latest",
+    "@bazel/ibazel": "latest",
+    "@bazel/typescript": "^1.6.0",
     "@types/jest": "~25.2.1",
-    "@types/js-yaml": "^3.12.3"
+    "@types/js-yaml": "^3.12.3",
+    "@types/node": "13.7.0",
+    "@types/tar": "^4.0.3",
+    "aws-cdk": "~1.32.2",
+    "jest": "~25.1.0",
+    "prettier": "^1.19.1",
+    "source-map-support": "^0.5.9",
+    "tar": "^5.0.5",
+    "ts-jest": "^25.3.1",
+    "typescript": "^3.8.3"
   },
   "bin": {
     "cdk": "bin/cdk.js"
@@ -71,5 +71,8 @@
     "tbuild": "tsc",
     "twatch": "tsc -w",
     "cdk": "cdk"
+  },
+  "jest": {
+    "moduleFileExtensions": ["js"]
   }
 }

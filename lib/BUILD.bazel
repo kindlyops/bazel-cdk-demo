@@ -1,6 +1,6 @@
 load("@npm_bazel_typescript//:index.bzl", "ts_library")
-load("//:test.bzl", "ts_test")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("//:test.bzl", "ts_test")
 
 package(default_visibility = ["//lib:__subpackages__"])
 
@@ -8,7 +8,9 @@ ts_library(
     name = "lib",
     srcs = glob(
         ["*.ts"],
-        exclude = ["*.test.ts"],
+        exclude = [
+            "*.test.ts",
+        ],
     ),
     visibility = ["//visibility:public"],
     deps = [
@@ -32,7 +34,11 @@ ts_library(
 ts_test(
     name = "deployable_test",
     srcs = ["deployable.test.ts"],
+    visibility = ["//visibility:public"],
     deps = [
+        ":lib",
+        "@npm//@aws-cdk/core",
+        "@npm//@types/jest",
     ],
 )
 
