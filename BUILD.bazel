@@ -11,8 +11,9 @@ exports_files(
     [
         "tsconfig.json",
         "cdk.json",
+        "jest.config.js",
     ],
-    visibility = ["//:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
 
 nodejs_binary(
@@ -20,8 +21,8 @@ nodejs_binary(
     data = [
         "cdk.json",
         "tsconfig.json",
+        "//lib",
         "//lib:app",
-        "//lib:app_ts",
         "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",
