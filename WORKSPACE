@@ -48,11 +48,11 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies()
 
-buildtools_version = "0.28.0"
+buildtools_version = "0.29.0"
 
 http_archive(
     name = "io_bazel_buildtools",
-    sha256 = "5ec71602e9b458b01717fab1d37492154c1c12ea83f881c745dbd88e9b2098d8",
+    sha256 = "f3ef44916e6be705ae862c0520bac6834dd2ff1d4ac7e5abc61fe9f12ce7a865",
     strip_prefix = "buildtools-{0}".format(buildtools_version),
     urls = ["https://github.com/bazelbuild/buildtools/archive/{0}.tar.gz".format(buildtools_version)],
 )
@@ -73,9 +73,9 @@ http_archive(
 # your npm dependencies into your node_modules folder.
 # You must still run the package manager to do this.
 node_repositories(
-    node_version = "10.13.0",
+    node_version = "12.13.0",
     package_json = ["//:package.json"],
-    yarn_version = "1.12.1",
+    yarn_version = "1.22.4",
 )
 
 yarn_install(
