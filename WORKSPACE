@@ -75,7 +75,7 @@ http_archive(
 node_repositories(
     node_version = "12.13.0",
     package_json = ["//:package.json"],
-    yarn_version = "1.22.4",
+    yarn_version = "1.19.1",
 )
 
 yarn_install(

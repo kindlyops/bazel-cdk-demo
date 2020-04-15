@@ -8,8 +8,8 @@ def ts_test(name, srcs, deps, jest_config = "//:jest.config.js", **kwargs):
     src_name = name + "_src"
 
     deps = deps + [
-        #"@npm//@aws-cdk/assert",
-        "@npm//@types/jest",
+        "@npm//@aws-cdk/assert",
+        # "@npm//@types/jest",
     ]
 
     # Compile the test and extract its js files
@@ -34,12 +34,12 @@ def ts_test(name, srcs, deps, jest_config = "//:jest.config.js", **kwargs):
         "--no-watchman",
         "--ci",
     ]
-    args.extend(["--config", "$(location %s)" % jest_config])
-    args.extend(["--runTestsByPath", "$(locations %s)" % src_label])
+    args.extend(["--config", "$(rootpath %s)" % jest_config])
+    args.extend(["--runTestsByPath", "$(rootpaths %s)" % src_label])
 
     _jest_test(
         name = name,
         data = [jest_config, src_label],  # + deps,
-        args = args,
+        templated_args = args,
         **kwargs
     )
