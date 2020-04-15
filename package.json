@@ -62,6 +62,10 @@
     "ts-jest": "^25.3.1",
     "typescript": "^3.8.3"
   },
+  "// resolutions/**/jest-serializer": "need to resolve to a version that doesn't have a /// <reference path='../v8.d.ts' /> in build/index.d.ts which exposes a bug in ts_library",
+  "resolutions": {
+    "**/jest-serializer": "24.3.0"
+  },
   "bin": {
     "cdk": "bin/cdk.js"
   },

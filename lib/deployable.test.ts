@@ -9,9 +9,9 @@ test('deployable', () => {
       stackTraces: false
     });
 
-    // const stack1 = new DeployableStack(app, "MinimumViableStack", {
-    // artifactBucketName: "foo"
-    // });
+    const stack1 = new DeployableStack(app, "MinimumViableStack", {
+    artifactBucketName: "foo"
+    });
 
     expect(app.node.id).toEqual('');
 
