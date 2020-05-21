@@ -65,36 +65,8 @@ build --genrule_strategy=local
 # https://github.com/bazelbuild/bazel/issues/5347
 test --strategy=TestRunner=standalone
 
-# Turn off legacy external runfiles
-# This prevents accidentally depending on this feature, which Bazel will remove.
-build --nolegacy_external_runfiles
-
-# Turn on the "Managed Directories" feature.
-# This allows Bazel to share the same node_modules directory with other tools
-# NB: this option was introduced in Bazel 0.26
-# See https://docs.bazel.build/versions/master/command-line-reference.html#flag--experimental_allow_incremental_repository_updates
-common --experimental_allow_incremental_repository_updates
-
-# Turn on --incompatible_strict_action_env which was on by default
-# in Bazel 0.21.0 but turned off again in 0.22.0. Follow
-# https://github.com/bazelbuild/bazel/issues/7026 for more details.
-# This flag is needed to so that the bazel cache is not invalidated
-# when running bazel via `yarn bazel`.
-# See https://github.com/angular/angular/issues/27514.
-build --incompatible_strict_action_env
-run --incompatible_strict_action_env
-
 # Print relative paths of build files
 common --attempt_to_print_relative_paths
-
-# Javascript: Turn on --incompatible_strict_action_env which was on by default
-# in Bazel 0.21.0 but turned off again in 0.22.0. Follow
-# https://github.com/bazelbuild/bazel/issues/7026 for more details.
-# This flag is needed to so that the bazel cache is not invalidated
-# when running bazel via `yarn bazel`.
-# See https://github.com/angular/angular/issues/27514.
-build --incompatible_strict_action_env
-run --incompatible_strict_action_env
 
 # Load any settings specific to the current user.
 # .bazelrc.user should appear in .gitignore so that settings are not shared with team members
