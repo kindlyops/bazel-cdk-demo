@@ -59,7 +59,7 @@
     "prettier": "^2.0.4",
     "source-map-support": "^0.5.9",
     "tar": "^6.0.1",
-    "ts-jest": "^25.3.1",
+    "ts-jest": "^26.1.1",
     "typescript": "^3.8.3"
   },
   "// resolutions/**/jest-serializer": "need to resolve to a version that doesn't have a /// <reference path='../v8.d.ts' /> in build/index.d.ts which exposes a bug in ts_library",
