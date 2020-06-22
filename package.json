@@ -55,7 +55,7 @@
     "@types/node": "13.11.1",
     "@types/tar": "^4.0.3",
     "aws-cdk": "^1.32.2",
-    "jest": "^25.1.0",
+    "jest": "^26.0.1",
     "prettier": "^2.0.4",
     "source-map-support": "^0.5.9",
     "tar": "^6.0.1",
