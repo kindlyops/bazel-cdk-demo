@@ -25,7 +25,7 @@
     "@aws-cdk/aws-ecs": "^1.32.2",
     "@aws-cdk/aws-elasticloadbalancing": "^1.32.2",
     "@aws-cdk/aws-elasticloadbalancingv2": "^1.32.2",
-    "@aws-cdk/aws-events": "^1.32.2",
+    "@aws-cdk/aws-events": "^1.46.0",
     "@aws-cdk/aws-events-targets": "^1.32.2",
     "@aws-cdk/aws-iam": "^1.32.2",
     "@aws-cdk/aws-kms": "^1.32.2",
