@@ -85,7 +85,10 @@ export class CodeBuildExampleStack extends cdk.Stack {
     // https://docs.aws.amazon.com/codepipeline/latest/userguide/create-cloudtrail-S3-source.html
     // https://docs.aws.amazon.com/cdk/api/latest/python/aws_cdk.aws_codepipeline_actions.README.html#aws-s3
     const cloudTrail = new ct.Trail(this, "PipelineEventTrigger");
-    cloudTrail.addS3EventSelector([artifactBucket.arnForObjects(artifactKey)], {
+    cloudTrail.addS3EventSelector([{
+      bucket: artifactBucket,
+      objectPrefix: artifactKey,
+    }], {
       readWriteType: ct.ReadWriteType.WRITE_ONLY
     });
 
