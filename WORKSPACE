@@ -85,9 +85,8 @@ http_archive(
 # your npm dependencies into your node_modules folder.
 # You must still run the package manager to do this.
 node_repositories(
-    node_version = "10.13.0",
-    package_json = ["//:package.json"],
-    yarn_version = "1.12.1",
+    node_version = "12.13.0",
+    yarn_version = "1.19.1",
 )
 
 yarn_install(
