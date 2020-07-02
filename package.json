@@ -54,7 +54,7 @@
     "@types/js-yaml": "^3.12.3",
     "@types/node": "13.11.1",
     "@types/tar": "^4.0.3",
-    "aws-cdk": "^1.32.2",
+    "aws-cdk": "^1.49.0",
     "jest": "^25.1.0",
     "prettier": "^2.0.4",
     "source-map-support": "^0.5.9",
