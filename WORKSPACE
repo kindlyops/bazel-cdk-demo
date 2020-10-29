@@ -177,7 +177,7 @@ go_repository(
 
 http_archive(
     name = "com_github_kindlyops_pipeline_monitor",
-    sha256 = "1b8bb9ff35f4547ad64d851a8e924df408f423d851e68492d7080f388a97fa0a",
-    strip_prefix = "pipeline-monitor-0.2.6",
-    urls = ["https://github.com/kindlyops/pipeline-monitor/archive/v0.2.6.tar.gz"],
+    sha256 = "a8f970646aea9159a5529d9cb763f39157ed6139edc78f4c9496f84c4c3841a4",
+    strip_prefix = "pipeline-monitor-0.2.12",
+    urls = ["https://github.com/kindlyops/pipeline-monitor/archive/v0.2.12.tar.gz"],
 )

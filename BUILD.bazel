@@ -14,7 +14,6 @@ load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 exports_files(
     [
         "tsconfig.json",
-        "cdk.json",
         "jest.config.js",
     ],
     visibility = ["//visibility:public"],
@@ -22,8 +21,8 @@ exports_files(
 
 nodejs_binary(
     name = "cdk",
+    args = ["--app $(location //lib:app)"],
     data = [
-        "cdk.json",
         "tsconfig.json",
         "//lib",
         "//lib:app",
@@ -31,8 +30,20 @@ nodejs_binary(
         "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",
+    node_modules = "@npm//:node_modules",
     visibility = ["//visibility:public"],
 )
+
+# genrule(
+#     name = "synth",
+#     outs = ["synth.tar"],
+#     cmd = "$(execpath //lib:app) cdk.out $@",
+#     tools = [
+#         "//lib:app",
+#         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
+#     ],
+#     visibility = ["//visibility:public"],
+# )
 
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
