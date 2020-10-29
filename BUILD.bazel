@@ -2,6 +2,10 @@
 # See https://docs.bazel.build/versions/master/build-ref.html#BUILD_files
 
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@com_kindlyops_rules_manifest//:manifest.bzl", "docker_manifest", "lambda_manifest")
+load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 
 # Allow any ts_library rules in this workspace to reference the config
 # Note: if you move the tsconfig.json file to a subdirectory, you can add an alias() here instead
@@ -10,7 +14,6 @@ load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 exports_files(
     [
         "tsconfig.json",
-        "cdk.json",
         "jest.config.js",
     ],
     visibility = ["//visibility:public"],
@@ -18,14 +21,14 @@ exports_files(
 
 nodejs_binary(
     name = "cdk",
+    args = ["--app $(location //lib:app)"],
     data = [
-        "cdk.json",
         "tsconfig.json",
         "//lib",
         "//lib:app",
-        "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",
+    node_modules = "@npm//:node_modules",
     visibility = ["//visibility:public"],
 )
 
@@ -37,12 +40,8 @@ genrule(
     visibility = ["//visibility:public"],
 )
 
-load("@bazel_gazelle//:def.bzl", "gazelle")
-
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
-
-load("@com_kindlyops_rules_manifest//:manifest.bzl", "docker_manifest", "lambda_manifest")
 
 lambda_manifest(
     name = "lambdamanifest",
@@ -51,9 +50,6 @@ lambda_manifest(
         "//lambdas/demo2:lambda_zip",
     ],
 )
-
-load("@io_bazel_rules_docker//go:image.bzl", "go_image")
-load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 
 go_image(
     name = "container",
