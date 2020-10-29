@@ -38,6 +38,7 @@ ts_test(
     deps = [
         ":lib",
         "@npm//@aws-cdk/core",
+        "@npm//@jest/globals",
     ],
 )
 
