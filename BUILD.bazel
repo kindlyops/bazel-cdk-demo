@@ -15,8 +15,9 @@ exports_files(
     [
         "tsconfig.json",
         "cdk.json",
+        "jest.config.js",
     ],
-    visibility = ["//:__subpackages__"],
+    visibility = ["//visibility:public"],
 )
 
 nodejs_binary(
@@ -24,8 +25,8 @@ nodejs_binary(
     data = [
         "cdk.json",
         "tsconfig.json",
+        "//lib",
         "//lib:app",
-        "//lib:app_ts",
         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
         "@npm//:node_modules",
     ],
@@ -39,8 +40,8 @@ gazelle(name = "gazelle")
 lambda_manifest(
     name = "lambdamanifest",
     srcs = [
-        "//lambdas/demo:lambda_deploy",
-        "//lambdas/demo2:lambda_deploy",
+        "//lambdas/demo:lambda_zip",
+        "//lambdas/demo2:lambda_zip",
         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
 )

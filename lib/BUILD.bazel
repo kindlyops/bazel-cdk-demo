@@ -1,11 +1,17 @@
 load("@npm_bazel_typescript//:index.bzl", "ts_library")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("//:test.bzl", "ts_test")
 
 package(default_visibility = ["//lib:__subpackages__"])
 
 ts_library(
-    name = "app_ts",
-    srcs = glob(["*.ts"]),
+    name = "lib",
+    srcs = glob(
+        ["*.ts"],
+        exclude = [
+            "*.test.ts",
+        ],
+    ),
     visibility = ["//visibility:public"],
     deps = [
         "@npm//@aws-cdk/aws-cloudtrail",
@@ -26,11 +32,21 @@ ts_library(
     ],
 )
 
+ts_test(
+    name = "deployable_test",
+    srcs = ["deployable.test.ts"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":lib",
+        "@npm//@aws-cdk/core",
+    ],
+)
+
 # this gives us app_loader.js per https://github.com/bazelbuild/rules_nodejs/issues/312
 nodejs_binary(
     name = "app",
     data = [
-        ":app_ts",
+        ":lib",
         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
     entry_point = ":app.ts",

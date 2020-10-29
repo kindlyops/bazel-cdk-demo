@@ -52,21 +52,13 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies()
 
-buildtools_version = "0.28.0"
+buildtools_version = "0.29.0"
 
 http_archive(
     name = "io_bazel_buildtools",
-    sha256 = "5ec71602e9b458b01717fab1d37492154c1c12ea83f881c745dbd88e9b2098d8",
+    sha256 = "f3ef44916e6be705ae862c0520bac6834dd2ff1d4ac7e5abc61fe9f12ce7a865",
     strip_prefix = "buildtools-{0}".format(buildtools_version),
     urls = ["https://github.com/bazelbuild/buildtools/archive/{0}.tar.gz".format(buildtools_version)],
-)
-
-# https://github.com/bazelbuild/rules_pkg/pull/97
-http_archive(
-    name = "com_github_bazelbuild_rules_pkg",
-    sha256 = "135a94754b05e06d1e6601fb4872ff0df9efa09813fb1bb67e0a40465784ad39",
-    strip_prefix = "rules_pkg-c87df3e066ef3391be21e09534bea153856f707d",
-    urls = ["https://github.com/kindlyops/rules_pkg/archive/c87df3e066ef3391be21e09534bea153856f707d.tar.gz"],
 )
 
 # The npm_install rule runs yarn anytime the package.json or package-lock.json file changes.
@@ -86,6 +78,7 @@ http_archive(
 # You must still run the package manager to do this.
 node_repositories(
     node_version = "12.13.0",
+    package_json = ["//:package.json"],
     yarn_version = "1.19.1",
 )
 
@@ -108,11 +101,14 @@ ts_setup_workspace()
 
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
+# rules_docker
+rules_docker_version = "0.14.3"
+
 http_archive(
     name = "io_bazel_rules_docker",
     sha256 = "6287241e033d247e9da5ff705dd6ef526bac39ae82f3d17de1b69f8cb313f9cd",
-    strip_prefix = "rules_docker-0.14.3",
-    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.14.3/rules_docker-v0.14.3.tar.gz"],
+    strip_prefix = "rules_docker-{}".format(rules_docker_version),
+    urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v{0}/rules_docker-v{0}.tar.gz".format(rules_docker_version)],
 )
 
 load(

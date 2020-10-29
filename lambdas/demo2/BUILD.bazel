@@ -1,5 +1,4 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
-load("@com_github_bazelbuild_rules_pkg//pkg:pkg.bzl", "pkg_zip")
 
 go_library(
     name = "go_default_library",
@@ -19,15 +18,17 @@ go_library(
 go_binary(
     name = "main",
     embed = [":go_default_library"],
+    goarch = "amd64",
+    goos = "linux",
+    pure = "on",
     visibility = ["//visibility:private"],
 )
 
-pkg_zip(
-    name = "lambda_deploy",
-    srcs = [
-        ":main",
-    ],
-    build_zip = "@com_github_bazelbuild_rules_pkg//pkg:build_zip",
-    timestamp = 0,
+genrule(
+    name = "lambda_zip",
+    srcs = [":main"],
+    outs = ["lambda_deploy.zip"],
+    cmd = "$(location @bazel_tools//tools/zip:zipper) c $@ main=$<",
+    tools = ["@bazel_tools//tools/zip:zipper"],
     visibility = ["//visibility:public"],
 )
