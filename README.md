@@ -28,15 +28,3 @@ For example, to add a dependency on the aws-sdk-go library, run
 
     bazel run //:gazelle -- update-repos github.com/aws/aws-sdk-go
 
-## Edit online
-
-https://gitpod.io/#https://github.com/kindlyops/pipeline-monitor
-
-## TODO
-
-- generate go lambda function and deployment zip
-- generate json manifest file that describes file hash
-- generate deploy binaries named by content hash
-- push deploy binaries to S3 from codebuild
-- Connect CfnCodeParameters to lambda artifacts using special Fn::GetParam pseudo-intrinsic
-  https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html

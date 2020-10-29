@@ -36,16 +36,21 @@ nodejs_binary(
     visibility = ["//visibility:public"],
 )
 
-# genrule(
-#     name = "synth",
-#     outs = ["synth.tar"],
-#     cmd = "$(execpath //lib:app) cdk.out $@",
-#     tools = [
-#         "//lib:app",
-#         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
-#     ],
-#     visibility = ["//visibility:public"],
-# )
+genrule(
+    name = "synth",
+    srcs = [
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
+        "//lambdas/demo:lambda_zip",
+        "//lambdas/demo2:lambda_zip",
+    ],
+    outs = ["synth.tar"],
+    cmd = """rm -rf `dirname $@`/cdk.out && $(execpath //lib:app) \
+      `dirname $@`/cdk.out \
+      $(BINDIR) \
+      && tar -C `dirname $@`/cdk.out -cf $@ .
+    """,
+    tools = ["//lib:app"],
+)
 
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
 gazelle(name = "gazelle")
