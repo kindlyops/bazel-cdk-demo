@@ -21,7 +21,9 @@ exports_files(
 
 nodejs_binary(
     name = "cdk",
-    args = ["--app $(location //lib:app)"],
+    args = [
+        "--app $(location //lib:app)",
+    ],
     data = [
         "tsconfig.json",
         "//lib",
