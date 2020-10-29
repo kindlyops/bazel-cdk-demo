@@ -89,16 +89,6 @@ yarn_install(
     yarn_lock = "//:yarn.lock",
 )
 
-#---
-# Install any Bazel rules which were extracted earlier by the npm_install rule.
-# load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
-
-# install_bazel_dependencies()
-# Setup TypeScript toolchain
-# load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
-# ts_setup_workspace()
-#----
-
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
 # rules_docker
