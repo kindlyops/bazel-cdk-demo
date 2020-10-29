@@ -20,3 +20,5 @@ jobs:
         pattern: '*.ts'      
     - name: bazel build
       run: bazel build //...
+    - name: cdk smoketest
+      run: bazel run :cdk ls
