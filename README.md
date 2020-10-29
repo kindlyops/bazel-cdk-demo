@@ -2,8 +2,7 @@
 
 ## initial setup
 
-* yarn create @bazel com_kindlyops_bazel_cdk_demo --typescript
-
+- yarn create @bazel com_kindlyops_bazel_cdk_demo --typescript
 
 ## updating after changing packages in package.json
 
@@ -23,17 +22,9 @@ This is useful as a build artifact for deployment in a pipeline
 
     bazel build synth
 
-## To add a new  go dependency, run gazelle
+## To add a new go dependency, run gazelle
 
 For example, to add a dependency on the aws-sdk-go library, run
 
     bazel run //:gazelle -- update-repos github.com/aws/aws-sdk-go
 
-## TODO
-
-* generate go lambda function and deployment zip
-* generate json manifest file that describes file hash
-* generate deploy binaries named by content hash
-* push deploy binaries to S3 from codebuild
-* Connect CfnCodeParameters to lambda artifacts using special Fn::GetParam pseudo-intrinsic
-  https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html

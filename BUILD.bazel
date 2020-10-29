@@ -21,11 +21,15 @@ exports_files(
 
 nodejs_binary(
     name = "cdk",
-    args = ["--app $(location //lib:app)"],
+    args = [
+        "--app $(location //lib:app)",
+    ],
     data = [
         "tsconfig.json",
         "//lib",
         "//lib:app",
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
+        "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",
     node_modules = "@npm//:node_modules",
@@ -34,10 +38,18 @@ nodejs_binary(
 
 genrule(
     name = "synth",
+    srcs = [
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
+        "//lambdas/demo:lambda_zip",
+        "//lambdas/demo2:lambda_zip",
+    ],
     outs = ["synth.tar"],
-    cmd = "$(execpath //lib:app) cdk.out $@",
+    cmd = """rm -rf `dirname $@`/cdk.out && $(execpath //lib:app) \
+      `dirname $@`/cdk.out \
+      $(BINDIR) \
+      && tar -C `dirname $@`/cdk.out -cf $@ .
+    """,
     tools = ["//lib:app"],
-    visibility = ["//visibility:public"],
 )
 
 # gazelle:prefix github.com/kindlyops/bazel-cdk-demo
@@ -48,6 +60,7 @@ lambda_manifest(
     srcs = [
         "//lambdas/demo:lambda_zip",
         "//lambdas/demo2:lambda_zip",
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
 )
 

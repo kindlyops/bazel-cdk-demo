@@ -16,10 +16,12 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": ".",
   },
   "paths": {
     "com_kindlyops_bazel_cdk_demo/*": ["*"]
   },
+  "types": ["node", "jest"],
   "exclude": ["cdk.out", "bazel-out", "dist", "node_modules"]
 }

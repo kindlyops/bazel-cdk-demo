@@ -1,4 +1,4 @@
-load("@npm_bazel_typescript//:index.bzl", "ts_library")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 load("//:test.bzl", "ts_test")
 
@@ -18,6 +18,7 @@ ts_library(
         "@npm//@aws-cdk/aws-codebuild",
         "@npm//@aws-cdk/aws-codepipeline",
         "@npm//@aws-cdk/aws-codepipeline-actions",
+        "@npm//@aws-cdk/aws-events-targets",
         "@npm//@aws-cdk/aws-iam",
         "@npm//@aws-cdk/aws-lambda",
         "@npm//@aws-cdk/aws-s3",
@@ -28,6 +29,7 @@ ts_library(
         "@npm//@types/node",
         "@npm//@types/tar",
         "@npm//tar",
+        "@npm//yargs",
     ],
 )
 
@@ -47,6 +49,7 @@ nodejs_binary(
     name = "app",
     data = [
         ":lib",
+        "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
     entry_point = ":app.ts",
     visibility = ["//visibility:public"],

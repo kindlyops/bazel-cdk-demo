@@ -1,4 +1,4 @@
-load("@npm_bazel_typescript//:index.bzl", "ts_library")
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
 load("@npm//jest-cli:index.bzl", _jest_test = "jest_test")
 
 def ts_test(name, srcs, deps, jest_config = "//:jest.config.js", **kwargs):

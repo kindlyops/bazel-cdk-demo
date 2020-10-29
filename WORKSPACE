@@ -16,15 +16,17 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "d14076339deb08e5460c221fae5c5e9605d2ef4848eee1f0c81c9ffdc1ab31c1",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.6.1/rules_nodejs-1.6.1.tar.gz"],
+    sha256 = "f2194102720e662dbf193546585d705e645314319554c6ce7e47d8b59f459e9c",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.2.2/rules_nodejs-2.2.2.tar.gz"],
 )
 
 http_archive(
     name = "io_bazel_rules_go",
-    sha256 = "4e1cddcb58e973732547a23330964377ff1c37eda9980c149d0727960b09caea",
-    strip_prefix = "rules_go-0.19.4",
-    urls = ["https://github.com/bazelbuild/rules_go/archive/0.19.4.tar.gz"],
+    sha256 = "a8d6b1b354d371a646d2f7927319974e0f9e52f73a2452d2b3877118169eb6bb",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_go/releases/download/v0.23.3/rules_go-v0.23.3.tar.gz",
+        "https://github.com/bazelbuild/rules_go/releases/download/v0.23.3/rules_go-v0.23.3.tar.gz",
+    ],
 )
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
@@ -32,16 +34,18 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_depe
 go_rules_dependencies()
 
 go_register_toolchains(
-    go_version = "1.12.9",
+    go_version = "1.14.4",
 )
 
 # to easily generate the http_archive with sha use a command like
 # bzl use bazelbuild/bazel-gazelle 0.18.2
 http_archive(
     name = "bazel_gazelle",
-    sha256 = "6bf18fbc02f7e999335f38933b4eeb292853b516fbc3ed64be837063f0c412a0",
-    strip_prefix = "bazel-gazelle-0.18.2",
-    urls = ["https://github.com/bazelbuild/bazel-gazelle/archive/0.18.2.tar.gz"],
+    sha256 = "cdb02a887a7187ea4d5a27452311a75ed8637379a1287d8eeb952138ea485f7d",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-gazelle/releases/download/v0.21.1/bazel-gazelle-v0.21.1.tar.gz",
+        "https://github.com/bazelbuild/bazel-gazelle/releases/download/v0.21.1/bazel-gazelle-v0.21.1.tar.gz",
+    ],
 )
 
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
@@ -85,24 +89,14 @@ yarn_install(
     yarn_lock = "//:yarn.lock",
 )
 
-# Install any Bazel rules which were extracted earlier by the npm_install rule.
-load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
-
-install_bazel_dependencies()
-
-# Setup TypeScript toolchain
-load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
-
-ts_setup_workspace()
-
 check_bazel_version("0.29.0", "You must use a newer version of bazel")
 
 # rules_docker
-rules_docker_version = "0.14.1"
+rules_docker_version = "0.14.3"
 
 http_archive(
     name = "io_bazel_rules_docker",
-    sha256 = "dc97fccceacd4c6be14e800b2a00693d5e8d07f69ee187babfd04a80a9f8e250",
+    sha256 = "6287241e033d247e9da5ff705dd6ef526bac39ae82f3d17de1b69f8cb313f9cd",
     strip_prefix = "rules_docker-{}".format(rules_docker_version),
     urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v{0}/rules_docker-v{0}.tar.gz".format(rules_docker_version)],
 )
@@ -124,8 +118,6 @@ docker_go_image_repos()
 go_repository(
     name = "com_github_containous_whoami",
     importpath = "github.com/containous/whoami",
-    patch_args = ["-p1"],
-    patches = ["//:BUILD.patch"],
     sum = "h1:67C6ZyBsINZJW5OC00Z5aX2caOC1++UuHdoHz4wb9dw=",
     version = "v1.4.0",
 )
@@ -164,4 +156,18 @@ go_repository(
     importpath = "github.com/gorilla/websocket",
     sum = "h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=",
     version = "v1.4.1",
+)
+
+# use local_repository when testing local changes to pipeline-monitor
+# local_repository should be commented out before committing.
+# local_repository(
+#     name = "com_github_kindlyops_pipeline_monitor",
+#     path = "/Users/emurphy/go/src/github.com/kindlyops/pipeline-monitor",
+# )
+
+http_archive(
+    name = "com_github_kindlyops_pipeline_monitor",
+    sha256 = "a8f970646aea9159a5529d9cb763f39157ed6139edc78f4c9496f84c4c3841a4",
+    strip_prefix = "pipeline-monitor-0.2.12",
+    urls = ["https://github.com/kindlyops/pipeline-monitor/archive/v0.2.12.tar.gz"],
 )
