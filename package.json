@@ -60,7 +60,7 @@
     "source-map-support": "^0.5.19",
     "tar": "^6.0.5",
     "ts-jest": "^26.2.0",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.7",
     "yargs": "^16.1.0"
   },
   "// resolutions/**/jest-serializer": "need to resolve to a version that doesn't have a /// <reference path='../v8.d.ts' /> in build/index.d.ts which exposes a bug in ts_library",
