@@ -1047,9 +1047,9 @@
   integrity sha512-nmILMfF8wD3hR3+r0MUCqPahgBYszLKFBcrbnmYthG6Oujgy1NpYMjeWj7Hjt3pJMkT1MgQP/VipLu2gQyMc0Q==
 
 "@bazel/ibazel@latest":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@bazel/ibazel/-/ibazel-0.12.4.tgz#ddda7c8ead6e29dc8d637af446086a750f395218"
-  integrity sha512-FzOy+esB/fXVDbAmL6Ce2yCEy+PESZih8GypKhi0B8XzoZHAAn3QNnQcMNwo9PrIfp3G1989nM/JQ1b8jwEinQ==
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@bazel/ibazel/-/ibazel-0.14.0.tgz#86fa0002bed2ce1123b7ad98d4dd4623a0d93244"
+  integrity sha512-s0gyec6lArcRDwVfIP6xpY8iEaFpzrSpyErSppd3r2O49pOEg7n6HGS/qJ8ncvme56vrDk6crl/kQ6VAdEO+rg==
 
 "@bazel/typescript@^2.2.2":
   version "2.2.2"
