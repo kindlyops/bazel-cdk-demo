@@ -38,7 +38,7 @@
     "@aws-cdk/aws-kinesisfirehose": "^1.73.0",
     "@aws-cdk/aws-kms": "^1.73.0",
     "@aws-cdk/aws-lambda": "^1.73.0",
-    "@aws-cdk/aws-logs": "^1.73.0",
+    "@aws-cdk/aws-logs": "^1.78.0",
     "@aws-cdk/aws-route53-targets": "^1.73.0",
     "@aws-cdk/aws-route53": "^1.73.0",
     "@aws-cdk/aws-s3-assets": "^1.73.0",
