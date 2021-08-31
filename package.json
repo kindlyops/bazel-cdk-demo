@@ -61,7 +61,7 @@
     "@bazel/buildifier": "latest",
     "@bazel/ibazel": "latest",
     "@bazel/typescript": "^2.3.0",
-    "@types/jest": "^26.0.15",
+    "@types/jest": "^26.0.19",
     "@types/js-yaml": "^3.12.5",
     "@types/node": "14.14.16",
     "@types/tar": "^4.0.4",
