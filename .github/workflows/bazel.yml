@@ -13,11 +13,11 @@ jobs:
         sudo wget -O /usr/local/bin/bazel https://github.com/bazelbuild/bazelisk/releases/download/v1.3.0/bazelisk-linux-amd64
         sudo chmod +x /usr/local/bin/bazel
     - uses: actions/checkout@master
-    - name: Lint
-      uses: mooyoul/tslint-actions@v1.1.1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        pattern: '*.ts'      
+      #- name: Lint
+      #uses: mooyoul/tslint-actions@v1.1.1
+      #with:
+      #  token: ${{ secrets.GITHUB_TOKEN }}
+      #  pattern: '*.ts'      
     - name: bazel build
       run: bazel build //...
     - name: cdk smoketest
