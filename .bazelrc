@@ -60,6 +60,10 @@ build:debug --define=DEBUG=1
 build --spawn_strategy=local
 build --genrule_strategy=local
 
+build --enable_runfiles
+run --enable_runfiles
+test --enable_runfiles
+
 # Print relative paths of build files
 common --attempt_to_print_relative_paths
 

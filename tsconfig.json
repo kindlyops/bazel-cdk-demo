@@ -18,10 +18,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "baseUrl": ".",
+    "paths": {
+      "com_kindlyops_bazel_cdk_demo/*": ["*"]
+    }
   },
-  "paths": {
-    "com_kindlyops_bazel_cdk_demo/*": ["*"]
-  },
-  "types": ["node", "jest"],
-  "exclude": ["cdk.out", "bazel-out", "dist", "node_modules"]
+  "types": ["node", "jest"]
 }

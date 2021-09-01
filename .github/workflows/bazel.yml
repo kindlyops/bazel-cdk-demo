@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Install bazelisk
       run: |
@@ -17,8 +17,10 @@ jobs:
       #uses: mooyoul/tslint-actions@v1.1.1
       #with:
       #  token: ${{ secrets.GITHUB_TOKEN }}
-      #  pattern: '*.ts'      
+      #  pattern: '*.ts'
     - name: bazel build
       run: bazel build //...
+    - name: bazel test
+      run: bazel test //...
     - name: cdk smoketest
       run: bazel run :cdk ls
