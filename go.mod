@@ -3,7 +3,7 @@ module github.com/kindlyops/bazel-cdk-demo
 go 1.12
 
 require (
-	github.com/aws/aws-lambda-go v1.20.0
+	github.com/aws/aws-lambda-go v1.21.0
 	github.com/aws/aws-sdk-go v1.35.19
 	github.com/bazelbuild/rules_docker v0.14.1 // indirect
 	github.com/bazelbuild/rules_go v0.22.4 // indirect
