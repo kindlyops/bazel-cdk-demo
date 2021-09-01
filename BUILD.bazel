@@ -32,7 +32,8 @@ nodejs_binary(
         "@npm//:node_modules",
     ],
     entry_point = "@npm//:node_modules/aws-cdk/bin/cdk",
-    node_modules = "@npm//:node_modules",
+    # https://github.com/bazelbuild/rules_nodejs/pull/2344
+    templated_args = ["--bazel_patch_module_resolver"],
     visibility = ["//visibility:public"],
 )
 

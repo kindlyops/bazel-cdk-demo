@@ -40,7 +40,7 @@ ts_test(
     deps = [
         ":lib",
         "@npm//@aws-cdk/core",
-        "@npm//@jest/globals",
+        "@npm//@jest",
     ],
 )
 
@@ -52,5 +52,7 @@ nodejs_binary(
         "@com_github_kindlyops_pipeline_monitor//:lambda_deploy",
     ],
     entry_point = ":app.ts",
+    # https://github.com/bazelbuild/rules_nodejs/pull/2344
+    templated_args = ["--bazel_patch_module_resolver"],
     visibility = ["//visibility:public"],
 )
